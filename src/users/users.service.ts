@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/models/user.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserRoleEnum } from 'src/models/user.entity';
+import { UserRoleEnum, UserStateEnum } from 'src/models/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -16,6 +17,12 @@ export class UsersService {
     });
     return user !== undefined;
   }
+  async findOne(email: string) {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+    return user;
+  }
   async createAdmin(
     email: string,
     password: string,
@@ -23,17 +30,37 @@ export class UsersService {
     lastName?: string,
   ) {
     const userRole = UserRoleEnum.ADMIN;
+    return this.createUser(email, password, userRole, firstName, lastName);
+  }
+  async createUser(
+    email: string,
+    password: string,
+    userRole: UserRoleEnum,
+    firstName: string,
+    lastName?: string,
+  ) {
     try {
-      await this.userRepository.insert({
+      const hashPassword = await bcrypt.hash(password, 12);
+      let userState: UserStateEnum;
+      if (userRole === UserRoleEnum.CLINICIAN) {
+        userState = UserStateEnum.NOT_VERIFIED;
+      } else {
+        userState = UserStateEnum.VERIFIED;
+      }
+      const user = await this.userRepository.insert({
         userRole,
+        userState,
         firstName,
         lastName,
         email,
-        password,
+        password: hashPassword,
       });
+      console.log(user.identifiers[0].id);
+      return user.identifiers[0].id;
     } catch (err) {
-      return false;
+      // tslint:disable-next-line: no-console
+      console.log(err);
     }
-    return true;
+    return null;
   }
 }

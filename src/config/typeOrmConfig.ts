@@ -7,6 +7,5 @@ export const typeOrmConfig: TypeOrmModule = {
   synchronize: true,
   useNewUrlParser: true,
   logging: true,
-  entities: [join(__dirname, '../**/**.entity{.ts,.js}')],
-  subscribers: [join(__dirname, '../subscribers/*.subscriber{.ts,.js}')],
+  entities: [join(__dirname, '../models/*.entity{.ts,.js}')],
 };

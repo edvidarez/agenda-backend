@@ -1,15 +1,9 @@
-import {
-  Entity,
-  Column,
-  ObjectIdColumn,
-  ObjectID,
-  PrimaryColumn,
-} from 'typeorm';
+import { Entity, Column, ObjectIdColumn, ObjectID } from 'typeorm';
 
 export enum UserStateEnum {
-  VERIFIED,
-  NOT_VERIFIED,
   DISABLED,
+  NOT_VERIFIED,
+  VERIFIED,
 }
 export enum UserRoleEnum {
   ADMIN,
@@ -35,8 +29,9 @@ export class User {
     type: 'enum',
     enum: UserStateEnum,
     default: UserStateEnum.NOT_VERIFIED,
+    nullable: false,
   })
-  state: UserStateEnum;
+  userState: UserStateEnum;
 
   @Column({
     type: 'enum',

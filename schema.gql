@@ -3,10 +3,18 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type AuthResponse {
+  sessionToken: String!
+}
+
 type Mutation {
+  login(password: String!, email: String!): AuthResponse
+  signup(lastName: String, firstName: String!, role: String!, password: String!, email: String!): AuthResponse
   createAdmin(lastName: String, firstName: String!, password: String!, email: String!): Boolean
 }
 
 type Query {
+  seguro: String!
+  whoAmI: String!
   findOneAdmin: Boolean!
 }
