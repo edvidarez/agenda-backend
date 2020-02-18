@@ -1,5 +1,10 @@
-import { Entity, Column, ObjectIdColumn, ObjectID } from 'typeorm';
-
+import {
+  Entity,
+  Column,
+  ObjectIdColumn,
+  ObjectID,
+  CreateDateColumn,
+} from 'typeorm';
 export enum UserStateEnum {
   DISABLED,
   NOT_VERIFIED,
@@ -46,4 +51,6 @@ export class User {
     nullable: true,
   })
   lastName?: string;
+  @CreateDateColumn()
+  signupDate: Date;
 }

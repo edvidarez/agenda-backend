@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UsersService } from './users.service';
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, SetMetadata } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/utils/graqhpqlGuard';
 import { User } from 'src/models/user.entity';
 import { CurrentUser } from 'src/utils/userDecorator';
@@ -12,7 +12,7 @@ export class UsersResolver {
   @Query(() => String)
   @UseGuards(GqlAuthGuard)
   async whoAmI(@CurrentUser() user: User): Promise<string> {
-    const serUser = await await this.userService.findOne(user.email);
+    const serUser = await this.userService.findOne(user.email);
     return JSON.stringify(serUser);
   }
 

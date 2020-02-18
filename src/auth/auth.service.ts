@@ -16,8 +16,6 @@ export class AuthService {
       return false;
     }
     const eqPass = await bcrypt.compare(password, user.password);
-
-    console.log('User loged IN', eqPass);
     return eqPass;
   }
   async signup(
@@ -35,7 +33,7 @@ export class AuthService {
       lastName,
     );
     if (userId) {
-      const payload = { email };
+      const payload = { role: userRole };
       const JWT = {
         sessionToken: this.jwtService.sign(payload),
       };
@@ -44,7 +42,7 @@ export class AuthService {
     return null;
   }
   async login(user: User) {
-    const payload = { email: user.email };
+    const payload = { role: user.userRole };
     const JWT = {
       sessionToken: this.jwtService.sign(payload),
     };

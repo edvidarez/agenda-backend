@@ -10,6 +10,14 @@ export class UsersService {
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
   ) {}
+  async findByRole(userRole: UserRoleEnum) {
+    const list = await this.userRepository.find({
+      where: {
+        userRole,
+      },
+    });
+    return list;
+  }
   async findOneAdmin(): Promise<boolean> {
     const userRole = UserRoleEnum.ADMIN;
     const user = await this.userRepository.findOne({
@@ -47,15 +55,16 @@ export class UsersService {
       } else {
         userState = UserStateEnum.VERIFIED;
       }
+      const signupDate = new Date();
       const user = await this.userRepository.insert({
         userRole,
         userState,
         firstName,
         lastName,
         email,
+        signupDate,
         password: hashPassword,
       });
-      console.log(user.identifiers[0].id);
       return user.identifiers[0].id;
     } catch (err) {
       // tslint:disable-next-line: no-console

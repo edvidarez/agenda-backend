@@ -17,4 +17,5 @@ type Query {
   seguro: String!
   whoAmI: String!
   findOneAdmin: Boolean!
+  listClinician: String!
 }

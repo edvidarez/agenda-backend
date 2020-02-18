@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { typeOrmConfig } from './config/typeOrmConfig';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ClinicianModule } from './clinician/clinician.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     AuthModule,
     UsersModule,
+    ClinicianModule,
   ],
   controllers: [AppController],
   providers: [AppService],
